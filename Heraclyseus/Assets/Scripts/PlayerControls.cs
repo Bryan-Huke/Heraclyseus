@@ -57,6 +57,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MousePos"",
+                    ""type"": ""Value"",
+                    ""id"": ""59d85177-a61e-4ae2-ace4-de99fc5d1031"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +166,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Push"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""055d7b87-d623-4dc2-aa7a-26a470f27ee8"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -171,6 +190,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Combat_Special = m_Combat.FindAction("Special", throwIfNotFound: true);
         m_Combat_Dash = m_Combat.FindAction("Dash", throwIfNotFound: true);
         m_Combat_Push = m_Combat.FindAction("Push", throwIfNotFound: true);
+        m_Combat_MousePos = m_Combat.FindAction("MousePos", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -225,6 +245,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Combat_Special;
     private readonly InputAction m_Combat_Dash;
     private readonly InputAction m_Combat_Push;
+    private readonly InputAction m_Combat_MousePos;
     public struct CombatActions
     {
         private @PlayerControls m_Wrapper;
@@ -234,6 +255,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Special => m_Wrapper.m_Combat_Special;
         public InputAction @Dash => m_Wrapper.m_Combat_Dash;
         public InputAction @Push => m_Wrapper.m_Combat_Push;
+        public InputAction @MousePos => m_Wrapper.m_Combat_MousePos;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +280,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Push.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnPush;
                 @Push.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnPush;
                 @Push.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnPush;
+                @MousePos.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnMousePos;
+                @MousePos.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnMousePos;
+                @MousePos.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnMousePos;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -277,6 +302,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Push.started += instance.OnPush;
                 @Push.performed += instance.OnPush;
                 @Push.canceled += instance.OnPush;
+                @MousePos.started += instance.OnMousePos;
+                @MousePos.performed += instance.OnMousePos;
+                @MousePos.canceled += instance.OnMousePos;
             }
         }
     }
@@ -288,5 +316,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSpecial(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPush(InputAction.CallbackContext context);
+        void OnMousePos(InputAction.CallbackContext context);
     }
 }
