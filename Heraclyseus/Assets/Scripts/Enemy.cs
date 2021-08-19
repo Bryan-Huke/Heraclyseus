@@ -16,20 +16,40 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float attackCooldown = 1;
 
+    public GameObject player1;
+    public GameObject player2;
+    private GameObject target;
+
 
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
+
+        //player1 = 
+
+
+
+        //change this later
+        target = player1;
     }
 
 
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        Move();
+
     }
+
+
+    private void Move()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+    }
+
+    
+
 
     public bool TakeDamage(DamageInstance di)
     {
