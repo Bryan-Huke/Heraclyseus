@@ -10,22 +10,47 @@ public class PlayerMovement : MonoBehaviour
     public Transform attackPos;
 
     //player stats
-    public float moveSpeed = 10f;
-    public float dashSpeed = 50f;
-    public float attackAOE = 20f;
+    [SerializeField]
+    private float moveSpeed = 10f;
+    [SerializeField]
+    private float dashSpeed = 50f;
+    [SerializeField]
+    private float attackAOE = 20f;
 
     //timer to prevent multiple actions from happening at once
     private float actionTimer = 0f;
-    public float attackDuration = 0.3f;
-    public float specialDuration = 0.7f;
-    public float pushDuration = 0.3f;
-    public float dashDuration = 0.2f;
+    [SerializeField]
+    private float attackDuration = 0.3f;
+    [SerializeField]
+    private float specialDuration = 0.7f;
+    [SerializeField]
+    private float pushDuration = 0.3f;
+    [SerializeField]
+    private float dashDuration = 0.2f;
 
     //cooldowns for moves that cannot be spammed
-    public float specialCooldownLength = 2f;
-    public float dashCooldownLength = 1f;
+    [SerializeField]
+    private float specialCooldownLength = 2f;
+    [SerializeField]
+    private float dashCooldownLength = 1f;
     private float specialCooldownTimer = 0f;
     private float dashCooldownTimer = 0f;
+
+    //damage and knockback stats
+    [SerializeField]
+    private float attackDamage = 5;
+    [SerializeField]
+    private float attackKnockback = 5;
+    [SerializeField]
+    private float specialDamage = 20;
+    [SerializeField]
+    private float specialKnockback = 2;
+    [SerializeField]
+    private float pushDamage = 1;
+    [SerializeField]
+    private float pushKnockback = 20;
+
+
 
     //other variables
     private bool canMove = true;
@@ -145,6 +170,17 @@ public class PlayerMovement : MonoBehaviour
 
         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackAOE);
         //loop and damage enemies in the array
+        foreach(Collider2D enemyCollider in enemiesToDamage)
+        {
+            if (enemyCollider.Equals(gameObject.GetComponentInChildren<BoxCollider2D>()))
+            {
+                continue;
+            }
+
+            Debug.Log("Damaging");
+            enemyCollider.gameObject.GetComponent<Enemy>().TakeDamage(new DamageInstance(attackDamage, attackKnockback));
+        }
+
 
         actionTimer = attackDuration;
 
