@@ -178,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             Debug.Log("Damaging");
-            enemyCollider.gameObject.GetComponent<Enemy>().TakeDamage(new DamageInstance(attackDamage, attackKnockback));
+            enemyCollider.gameObject.GetComponent<Enemy>().TakeDamage(new DamageInstance(attackDamage, attackKnockback, new Vector2(0, 0), gameObject));
         }
 
 

@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+
+
         Move();
 
     }
